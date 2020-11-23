@@ -1,0 +1,128 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\graphicspath{ {./images/} }
+
+
+\title{Thesis Report}
+\author{Isha Anantpurkar}
+\date{November 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Gravitational-wave detectors such as LIGO, VIRGO, KAGRA have detected Gravitational Waves (GWs) radiated from compact object coalescences, such as binary black hole (BBH) systems and binary black hole neutron star systems (NSBH) systems. The data from these detectors consists of a large amount of noise in which the gravitational wave signals are buried. In order to extract these signals, the process of matched filtering is used where a set of template waveforms are compared with the detector data. Hence, the detection of gravitational waves depends on the template waveforms chosen to matched filter the detector data. \\
+
+The efficiency of the template bank in recovering signals from data depends on the density of template waveforms in the parameter space and the waveforms itself. Full numerical simulations of waveforms in the bank are not possible due to the computational cost of these simulations and hence, approximants such as Post-Newtonian (PN) and Effective One Body (EOB) formalism are used to construct these waveforms. The use of these inexact waveforms can reduce the detection rate of GWs.Additionally, these template waveforms usually only consist of the dominant quadrupolar mode. This affects the detection of GWs from binary systems with high mass ratios and spin which contain observable contributions from sub-dominant modes (as observed in GW190814). \\
+
+So, in order to detect these binary systems, it is important to understand the waveform models most appropriate to these regions in parameter space, the effect of including higher modes in template waveforms. 
+
+
+\section{Gravitational Waves from Coalescing Binaries}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{params.jpeg}
+    \caption{Parameters in gravitational wave detection}
+    \label{fig:my_label}
+\end{figure}
+
+The above image shows the source and detector frames and important angles.\\
+The inclination angle $\iota$ is the angle between the line connecting the detector and source and the total angular momentum of the binary $\vec{J}$ (the polarization of the grav wave). 
+The angle $\phi_0$ is the phase (coalescence phase) of the binary evolution and depends on the starting point. 
+The angles $\theta$ and $\phi$ are the position of the binary in the sky.\\
+Gravitational waveforms are represented as time-series function $h(t)$ where $h$ is written in terms of the plus and cross polarization, 
+\begin{equation}
+    h(t) = h_{+}(t) + ih_{\times}(t) \label{ComplexTimeSeries}
+\end{equation}
+which can be written in terms of spin-weighted spherical harmonic functions.
+\begin{equation}
+    h(t) = \sum_{l=2}^{\infty} \sum_{m=-l}^{l} Y^{-2}_{lm}(\iota, \phi_0) \; h_{lm}(t) \label{SpinWheighted}
+\end{equation}
+The $Y^{-2}_{lm}$s are functions of the inclination angle and phase. The $l=2$, $m=2$ mode corresponds to the quadrupole mode which is dominant in gravitational radiation. \\
+
+\section{Detection of Gravitational Waves}
+\subsection{Matched filtering}
+The gravitational wave data from detectors can be represented as,
+\begin{equation}
+    d(t) = n(t) + h(t) ,\label{GWData}
+\end{equation}
+where $n(t)$ is the Gaussian background noise and $h(t)$ is the gravitational waveform signal. In order to identify these signals from the data, the data is match filtered with a set of theoretical waveforms called the template bank. \\
+The signal-to-noise ratio (SNR) $\rho$ is used to quantify the match between two waveforms. For GW data $d(t)$ and normalized theoretical waveforms $\hat{h_b}(t)$,
+\begin{equation}
+    \rho = max_{params} \left( d(t), \hat{h_b}(t)\right), \label{SNR}
+\end{equation}
+where $(,)$ is the inner product defined,
+\begin{equation}
+    (h_1, h_2) = 4 \int_{0}^{\infty} \frac{\tilde{h_1^*}(f)\tilde{h_2}(f)}{S_n(f)}df
+\end{equation}
+and is maximized over all parameters of the waveform. A GW is 'detected' if the SNR is above a set minimum. \\
+However, the template bank used cannot consist of waveforms spanning all of the parameter space. Additionally, the waveform approximants used to construct the template bank may not be the same as the actual waveforms from binaries. This effect of the discreteness of template banks and use of waveform approximants is represented by the fitting factor (FF),
+\begin{equation}
+    FF = max_{template \; bank}\left ( \hat{h}_s(t), \hat{h}_b(t)\right ),
+\end{equation}
+where $h_s$ is the signal waveform and $h_b$ is the template bank waveform.\\
+The fitting factor also gives us a measure of how well a template bank can recover signal waveforms since a greater fitting factor would mean greater SNR would be recovered. This is known as the effectualness of a template bank.  
+
+\subsection{Geometric Placement of Template Banks} \label{GeomTmplBank}
+Template bank generating algorithms have the purpose of generating the minimum number of waveforms such that any waveform in that parameter space can be recovered with a fitting factor of 0.97 or higher. \\
+Define 
+\begin{equation}
+    O(h_1, h_2) = \left( \hat{h}_1, \hat{h}_2\right)
+\end{equation}
+as the normalized overlap between two waveforms. Let $\lambda$ be a point in the parameter space and $\lambda + \Delta\lambda$ be a point very close to the first point ($\Delta\lambda \approx $ 0).
+Then, the overlap for waveforms at these two points can be written as,
+\begin{equation}
+    O(h(\lambda), h(\lambda + \Delta\lambda)) \approx 1 + \frac{1}{2} \left (\frac{\partial^2O}{\partial\Delta\lambda^i \; \partial\Delta\lambda^j} \right) \delta\lambda^i \delta\lambda^j
+\end{equation}
+where the 1 is the first order value of the overlap, for $\Delta\lambda = 0$ . The second term is defined as $-g_{ij}\delta\lambda^i \delta\lambda^j$ and $g_{ij}$ is the metric used to find the points in the template bank. \\
+In the case where a template bank is constructed with non spinning binary systems, the metric is represented in $\tau_0$, $\tau_3$ coordinates, where
+\begin{equation}
+    \tau_0 = \frac{5}{265 \pi f_0 \eta}\left(\frac{\pi G M f_0}{c^3}\right)^{-5/3} \;\;\; \tau_3 = \frac{5}{8 f_0 \eta} \left( \frac{\pi G M f_0}{c^3}\right)^{-2/3} \cite{TmplBank},
+\end{equation}
+because the metric is more cartesian in these coordinates. The plots below show a temple bank for non spinning binary black holes in $m_1$, $m_2$ coordinates and $\tau_0$, $\tau_3$ coordinates. The points in the $\tau_0 - \tau_3$ plot are more uniformly distributed as compared to the $m_1 - m_2$ plot.
+\begin{figure}[h]
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[scale=0.5]{m1m2.png}
+        \label{fig:m1m2}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[scale=0.5]{tau0tau3.png}
+        \label{fig:tau0tau3}
+    \end{minipage}
+    \caption{Template Bank for non spinning binaries with component masses 2-10 $M_{\odot}$ plotted in m1-m2 coordinates to the left and tau0-tau3 coordinates to the right}
+\end{figure}
+
+\subsection{Effectualness of Template Banks}
+Effectualness of a template bank consisting of EOBNRv2 waveforms was found to signal EOBNRv2 and TaylorF2 waveforms. The template bank was constructed using the method described in Section \ref{GeomTmplBank} for non spinning binaries with component masses $3-25 M_{\odot}$. The plot of fitting factors for EOBNRv2 waveform signals is shown below. In this case, the regions with lower fitting factors reflect the lack of template waveforms in those regions, the points with FF close to 1 coincide with the points in the template bank. This is more clear from the second plot in $\eta-\mathcal{M}$ coordinates. 
+\begin{figure}[h]
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[scale=0.3]{EffectualnessEOBNRv2.png}
+        \label{fig:effectualnessEOBm1m2}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[scale=0.3]{EffectualnessEOBNRv2-eta-mchirp-coords.png}
+        \label{fig:effectualnessEOBetamchirp}
+    \end{minipage}
+    \caption{Fitting Factor of EOBNRv2 signal waveforms in $m_1-m_2$ coordinates and $\eta-\mathcal{M}$ coordinates}
+    \label{fig:effectualnessEOB}
+\end{figure}
+The plot below shows the FF of TaylorF2 signal waveforms. The FF here decreases for larger total mass $M$ which could be because of the PN approximated waveforms only contain the inspiral waveform. These waveforms have a high frequency cutoff at the ISCO (innermost stable circular orbit) where the adiabatic approximation is no longer valid. Since high total mass binaries have a shorter inspiral period, this is not sufficient to approximate the waveform.  
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{EffectualnessTaylorF2.png}
+    \caption{Fitting Factor of TaylorF2 signal waveforms}
+    \label{fig:effectualnessTaylorF2}
+\end{figure}
+\\
+For full waveforms including the merger, phenomenological models are used which are constructed using PN approximated waveforms tuned to numerical relativity for merger and ringdown terms. 
+
+
+\begin{thebibliography}{1}
+\bibitem{TmplBank} Babak, S. et al., Phys.Rev. D87 024033 (2013)
+\end{thebibliography}
+
+\end{document}
