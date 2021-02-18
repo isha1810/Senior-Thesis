@@ -51,7 +51,7 @@ So, in order to detect these spinning high mass-ratio binary systems, it is impo
 \section{Gravitational Waves from Coalescing Binaries}
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.2]{params.jpeg}
+    \includegraphics[scale=0.5]{ThesisReport/euler.png}
     \caption{Parameters in gravitational wave detection}
     \label{fig:GWFrameParams}
 \end{figure}
@@ -59,19 +59,9 @@ So, in order to detect these spinning high mass-ratio binary systems, it is impo
 Figure \ref{fig:GWFrameParams} shows the
 source and detector frames and important angles.  The inclination
 angle $\iota$ is the angle between the line connecting the detector
-and source and the total angular momentum of the binary $\vec{J}$
-(the polarization of the grav wave \red{I don't think this is the
-polarization angle. Take a look at Figs 7 and 8 in Ch2 of Duncan Brown's
-thesis}).  The angle $\phi_0$ is the
-phase (coalescence phase \red{I don't think this is the coalescence phase.
-It's just the phase angle in the frame of the binary. The subscript 0 is
-an unfortunate choice of notation. I think a c is used for coalescence.}
-) of the binary evolution and depends on the
-starting point.  The angles $\theta$ and $\phi$ \red{\sout{are} give}
-the position of the binary in the sky \red{in the frame of the detector}.
-\red{Explain the angle $\psi$ e.g. as the 3rd Euler angle relating the
-binary frame to the detector frame. Maybe you should download the source
-for Brown's thesis from ArXiV and reproduce a couple of his figures?}
+and source and the total angular momentum of the binary $\vec{J}$. The angle $\phi_0$ is the phase angle of the binary evolution and depends on the starting point. The angles $\theta$ and $\phi$ give
+the position of the binary in the sky in the frame of the detector.
+$\psi$ is the third euler angle used to relate the binary frame to the detector frame. 
 
 A gravitational waveform is represented
 as a time-series function $h(t)$, where $h$ is written in terms of
@@ -81,12 +71,9 @@ the plus and cross polarizations,
 \end{equation}
 This can be written in terms of spin-weighted spherical harmonic functions,
 \begin{equation}
-    h(t) = \sum_{l=2}^{\infty} \sum_{m=-l}^{l} Y^{-2}_{lm}(\iota, \phi_0) \; h_{lm}(t) \label{SpinWheighted}
+    h(t) = \sum_{l=2}^{\infty} \sum_{m=-l}^{l} Y^{-2}_{lm}(\theta, \phi) \; h_{lm}(t) \label{SpinWheighted}
 \end{equation}
-The $Y^{-2}_{lm}$s are functions of the inclination angle and phase.
-\red{Is this right? I thought $h(t)$ was written in terms of $\theta$ and
-$\phi$ in the detector frame.}
-The $l=2$, $m=2$ mode corresponds to the quadrupole mode,
+The $Y^{-2}_{lm}$s are functions of the inclination angle and phase. The $l=2$, $m=2$ mode corresponds to the quadrupole mode,
 which is dominant in gravitational radiation.
 
 \section{Detection of Gravitational Waves}
@@ -95,12 +82,8 @@ The gravitational wave data from detectors can be represented as,
 \begin{equation}
     d(t) = n(t) + h(t) ,\label{GWData}
 \end{equation}
-where $n(t)$ is the Gaussian \red{The noise is not generally Gaussian,
-although over short periods in time it is often approximated as
-Gaussian. Much of the analysis goes through without this assumption. Can
-you make it clear where you really need the Gaussian assumption?}
-background noise and $h(t)$ is the gravitational waveform signal. In order to identify these signals from the data, the data is match filtered with a set of theoretical waveforms called the template bank.
-
+where $n(t)$ is the background noise and $h(t)$ is the gravitational waveform signal. In order to identify these signals from the data, the data is match filtered with a set of theoretical waveforms called the template bank.
+The noise $n(t)$ typically consists of transient noise signals and some Gaussian noise sources (such as thermal and seismic noise). Although the noise is not actually Gaussian over long periods of time, the Gaussian assumption can be made for short periods of time to estimate the power spectral density (PSD) of the noise $S_n(f)$. 
 The signal-to-noise ratio (SNR) $\rho$ is used to quantify the match between two waveforms. For GW data $d(t)$ and normalized theoretical waveforms $\hat h_b(t)$,
 
 \begin{equation}
@@ -139,21 +122,20 @@ Then, the overlap for waveforms at these two points can be written as,
 \begin{equation}
     O(h(\lambda), h(\lambda + \Delta\lambda)) \approx 1 + \frac{1}{2} \left (\frac{\partial^2O}{\partial\Delta\lambda^i \; \partial\Delta\lambda^j} \right) \delta\lambda^i \delta\lambda^j
 \end{equation}
-\red{Explain why the first-order term is zero}
-where the 1 is the zeroth-order value of the overlap, for $\Delta\lambda = 0$. Setting the second term
+where the zeroth-order value of the overlap is 1 since this term corresponds to the inner product of $(h(\lambda), h(\lambda))$, for $\Delta\lambda = 0$. Setting the second term
  to $-g_{ij}\delta\lambda^i \delta\lambda^j$ allows us to define a metric $g_{ij}$ used to find the points in the template bank.
 
-\red{You need a few more sentences here explaining how you actually place
-points using the metric.}
-
-In the case where a template bank is constructed with non-spinning binary systems, the metric is represented in $\tau_0$, $\tau_3$ coordinates,
-where~\cite{TmplBank}
+In the case where a template bank is constructed with non-spinning binary systems, the metric is represented in $\tau_0$, $\tau_3$ coordinates,~\cite{TmplBank}
 \begin{equation}
     \tau_0 = \frac{5}{265 \pi f_0 \eta}\left(\frac{\pi G M f_0}{c^3}
     \right)^{-5/3} \qquad
-     \tau_3 = \frac{5}{8 f_0 \eta} \left( \frac{\pi G M f_0}{c^3}\right)^{-2/3}.
-\red{\text{Define }\eta \quad f_0}
+     \tau_3 = \frac{5}{8 f_0 \eta} \left( \frac{\pi G M f_0}{c^3}\right)^{-2/3},
 \end{equation}
+where,
+\begin{equation}
+    \eta = \frac{m_1 m_2}{(m_1 + m_2)^2}, \label{Eta}
+\end{equation}
+and $f_0$ is the lower frequency cutoff used in generating the waveforms. \\
  The reason for this choice is that the metric is more cartesian in these coordinates.
  Figure~\ref{fig:mtau} shows a template bank for
 non-spinning binary black holes in $m_1$, $m_2$ coordinates and $\tau_0$, $\tau_3$ coordinates. The points in the $\tau_0 - \tau_3$ plot are more uniformly distributed as compared to the $m_1 - m_2$ plot.
@@ -178,8 +160,11 @@ The template bank was constructed using the method described in Section \ref{Geo
 In this case, the regions with lower fitting factors reflect
 the lack of template waveforms in those regions, while the points with
 FF close to 1 coincide with the points in the template bank. This
-is clearer from the second plot in $\eta-\mathcal{M}$ coordinates.
-\red{Define $\mathcal{M}$}
+is clearer from the second plot in $\eta-\mathcal{M}$ coordinates, where $\eta$ is defined in Eq. \ref{EtaF0} and $\mathcal{M}$ is the chirp mass and can be written in terms of the reduced mass $\mu = \frac{m_1 m_2}{M}$ as,
+\begin{equation}
+    \mathcal{M} = \mu^{3/5} M^{2/5},
+\end{equation}
+and $M$ is the total mass.
 \begin{figure}[h]
     \begin{minipage}{0.5\textwidth}
         \includegraphics[scale=0.3]{EffectualnessEOBNRv2.png}
